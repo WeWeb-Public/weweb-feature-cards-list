@@ -1,0 +1,27 @@
+{
+  "name": "weweb-features-list",
+  "type": "section",
+  "wewebPublic": "true",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeWeb-Public/weweb-feature-cards-list.git"
+  },
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "weweb-build",
+    "serve": "weweb-serve",
+    "create-config": "weweb-config"
+  },
+  "dependencies": {
+    "vue": "2.6.10"
+  },
+  "devDependencies": {
+    "weweb-client": "1.0.50"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
