@@ -18,7 +18,6 @@
             :item="item"
             :index="index"
             :selectItem="toggleItem">
-
       </slot>
     </li>
   </ul>
@@ -43,6 +42,7 @@
         required: true
       },
       listClass: String,
+      itemClass: String,
       itemToSelect: Object,
       onListChanged: {
         type: Function,
@@ -85,7 +85,6 @@
       this.items = this.list.map((item, idx) => {
         return {
           isSelected: false,
-          idx,
           ...item,
         }
       })

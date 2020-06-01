@@ -16,9 +16,10 @@
 
       <ww-content-list :list="section.data.features"
                        :list-class="'features-list'"
+                       item-class="feature-item"
                        :edit-mode="editMode"
                        :new-item="createFeature()"
-                       :on-change="onListChanged">
+                       :on-list-changed="onListChanged">
         <template #row="{item,index,selectItem}">
           <div class="feature-item"
                :data-idx="index"
@@ -39,17 +40,9 @@
   const wwo = window.wwLib.wwObject
   const wwu = window.wwLib.wwUtils
 
-  const options = {
-    horizontalGutter: 48,
-    verticalGutter: 48,
-    elementWidth: 568,
-    elementHeight: 213,
-    selectedElementHeight: 473,
-    itemsRerRow: 2
-  }
-
   import wwContentList from './content-list.vue'
   import LayoutManager from './layoutManager'
+  import { getViewPortInfos } from './viewPort'
 
   export default {
     name: '__COMPONENT_NAME__',
@@ -88,7 +81,8 @@
           }
         ]
       },
-      layoutManager: {}
+      layoutManager: {},
+      viewPortIsMobile: false,
     }),
     computed: {
       section () {
@@ -103,9 +97,14 @@
       this.init()
     },
     mounted () {
+      const {isMobile} = getViewPortInfos(window)
       this.layoutManager = LayoutManager(this.$el)
-      this.layoutManager.configure(options)
+      this.layoutManager.configure(isMobile)
       this.layoutManager.update()
+      window.addEventListener('resize', this.onResizeWindow)
+    },
+    destroyed () {
+      window.removeEventListener('resize', this.onResizeWindow)
     },
 
     methods: {
@@ -125,6 +124,14 @@
           needUpdate = true
         }
         needUpdate && this.update()
+      },
+      onResizeWindow () {
+        const {isMobile} = getViewPortInfos(window)
+        if (isMobile !== this.viewPortIsMobile) {
+          this.layoutManager.configure(isMobile)
+          this.layoutManager.update()
+          this.viewPortIsMobile = isMobile
+        }
       },
       getNewFeature: () => ({
         uniqueId: wwu.getUniqueId(),
@@ -180,37 +187,43 @@
 
   .features-list {
     position: relative;
-    width: 1184px;
+    width: 100%;
     min-height: 500px;
     height: auto;
     margin: auto;
+    padding: 0 16px 0 16px;
     list-style-type: none;
     transition: all 1000ms;
+
+    @media (min-width: 1440px) {
+      width: 1184px;
+      padding: 0;
+    }
   }
 
   .feature-item {
     --color-grey-light: #F6F6F6;
     position: absolute;
-    width: 568px;
-    height: 213px;
+    width: 100%;
+    height: 180px;
     border-radius: 4px;
-    margin-bottom: 48px;
-    margin-right: 0;
     background-color: var(--color-grey-light);
     flex-basis: auto;
     transform-origin: left top;
     transition: all 500ms;
 
     @media (min-width: 1024px) {
+      height: 213px;
       width: 568px;
-      margin-bottom: 48px;
-      margin-right: 48px;
     }
 
     &.selected {
       width: 100%;
-      height: 473px;
-      flex-basis: 100%;
+      height: 575px;
+
+      @media (min-width: 1024px) {
+        height: 473px;
+      }
     }
   }
 

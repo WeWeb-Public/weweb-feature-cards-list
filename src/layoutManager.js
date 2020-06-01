@@ -1,17 +1,29 @@
 const LayoutManager = (container) => {
 
-  const config = {
-    horizontalGutter: 48,
-    verticalGutter: 48,
-    elementWidth: 568,
-    elementHeight: 213,
-    selectedElementHeight: 473,
-    itemsRerRow: 2
+  const options = {
+    mobile: {
+      verticalGutter: 16,
+      horizontalGutter: 0,
+      elementHeight: 180,
+      selectedElementHeight: 575,
+      itemsPerRow: 1,
+    },
+    desktop: {
+      horizontalGutter: 48,
+      verticalGutter: 48,
+      elementWidth: 568,
+      elementHeight: 213,
+      selectedElementHeight: 473,
+      itemsPerRow: 2
+    }
   }
+
+  const config = {}
 
   const view = {
     container,
     elements: [],
+    isMobile: false,
   }
 
   const state = {
@@ -23,10 +35,10 @@ const LayoutManager = (container) => {
   const computeInitialPositions = (elements) => {
     let rowNumber = 0
     let colNumber = 0
-    const {horizontalGutter, verticalGutter, elementHeight, elementWidth, itemsRerRow} = config
+    const {horizontalGutter, verticalGutter, elementHeight, elementWidth, itemsPerRow} = config
     return elements.map((el, index) => {
-      rowNumber = Math.floor(index / itemsRerRow)
-      colNumber = index % itemsRerRow
+      rowNumber = Math.floor(index / itemsPerRow)
+      colNumber = index % itemsPerRow
       return {
         top: (verticalGutter + elementHeight) * rowNumber,
         left: (horizontalGutter + elementWidth) * colNumber
@@ -34,8 +46,8 @@ const LayoutManager = (container) => {
     })
   }
 
-  const computeTranslationsFrom = (initialPositions) => {
-    const {horizontalGutter, verticalGutter, elementWidth, elementHeight, selectedElementHeight, itemsRerRow} = config
+  const computeTranslationsForDesktop = (initialPositions) => {
+    const {horizontalGutter, verticalGutter, elementWidth, elementHeight, selectedElementHeight} = config
     const {selectedIndex} = state
     const isSelectedIndexEven = selectedIndex % 2 === 0
 
@@ -56,6 +68,17 @@ const LayoutManager = (container) => {
       return {
         translateX,
         translateY
+      }
+    })
+  }
+
+  const computeTranslationsForMobile = (initialPositions) => {
+    const {selectedElementHeight, elementHeight} = config
+    const {selectedIndex} = state
+    return initialPositions.map((pos, idx) => {
+      return {
+        translateX: 0,
+        translateY: idx > selectedIndex ? selectedElementHeight - elementHeight : 0
       }
     })
   }
@@ -91,7 +114,7 @@ const LayoutManager = (container) => {
     const {elements} = view
     requestAnimationFrame(() => {
       elements.forEach((el, idx) => {
-        el.style.transform = `translate(0px, 0px)`;
+        el.style.transform = 'translate(0px, 0px)';
         (selectedIndex === idx) && el.classList.remove('selected')
       })
     })
@@ -100,12 +123,12 @@ const LayoutManager = (container) => {
   }
 
   return {
-    configure (options) {
+    configure (isMobile) {
+      const {desktop, mobile} = options
       Object.assign(
-        config, {
-          ...options
-        }
+        config, isMobile ? mobile : desktop
       )
+      view.isMobile = isMobile
     },
     update () {
       view.elements = [...view.container.querySelectorAll('.feature-item')]
@@ -120,7 +143,8 @@ const LayoutManager = (container) => {
         return
       }
       state.selectedIndex = index
-      translateElements(computeTranslationsFrom(initialPositions))
+      const computeTranslationsFn = view.isMobile ? computeTranslationsForMobile : computeTranslationsForDesktop
+      translateElements(computeTranslationsFn(initialPositions))
     }
   }
 }
