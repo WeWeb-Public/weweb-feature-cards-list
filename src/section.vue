@@ -16,10 +16,10 @@
 
       <ww-content-list :list="section.data.features"
                        :list-class="'features-list'"
-                       item-class="feature-item"
                        :edit-mode="editMode"
                        :new-item="createFeature()"
-                       :on-list-changed="onListChanged">
+                       :on-list-changed="onListChanged"
+                        ref="featuresList">
         <template #row="{item,index,selectItem}">
           <div class="feature-item"
                :data-idx="index"
@@ -98,7 +98,7 @@
     },
     mounted () {
       const {isMobile} = getViewPortInfos(window)
-      this.layoutManager = LayoutManager(this.$el)
+      this.layoutManager = LayoutManager(this.$refs.featuresList.$el)
       this.layoutManager.configure(isMobile)
       this.layoutManager.update()
       window.addEventListener('resize', this.onResizeWindow)

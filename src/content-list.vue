@@ -2,7 +2,8 @@
   <ul :class="listClass"
       class="list">
     <li v-for="(item, index) in items"
-        :key="item.uniqueId">
+        :key="item.uniqueId"
+        :class="itemWrapperClass">
       <!-- wwManager:start -->
       <wwContextMenu v-if="editMode"
                      class="ww-orange-button"
@@ -42,7 +43,7 @@
         required: true
       },
       listClass: String,
-      itemClass: String,
+      itemWrapperClass: String,
       itemToSelect: Object,
       onListChanged: {
         type: Function,
