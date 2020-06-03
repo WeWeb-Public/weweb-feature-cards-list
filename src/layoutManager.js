@@ -35,7 +35,6 @@ const LayoutManager = (container) => {
   }
 
   const state = {
-    isOpened: false,
     selectedIndex: -1,
     positions: [],
   }
@@ -130,7 +129,6 @@ const LayoutManager = (container) => {
       view.elements = [...view.container.querySelectorAll('li')]
       state.positions = computePositions(view.elements)
       layout(view.elements, state.positions)
-      state.isOpened = false
     },
 
     needUpdate(screenSize) {
@@ -138,20 +136,12 @@ const LayoutManager = (container) => {
       return screenSize !== view.kind
     },
 
-    toggleItemAt(index) {
-      const {selectedIndex, positions, isOpened} = state
+    expandItemAt(index) {
+      const {positions} = state
       const {kind, elements} = view
-      if (isOpened && selectedIndex !== index) return
-      if (selectedIndex === index) {
-        restore(elements)
-        state.isOpened = false
-        state.selectedIndex = -1
-        return
-      }
       const translationsFn = kind === 'mobile' ? toMobileTranslations : toDesktopTranslations
       translate(elements, translationsFn(positions, index))
       state.selectedIndex = index
-      state.isOpened = true
     },
     restore: () => {
       restore(view.elements)

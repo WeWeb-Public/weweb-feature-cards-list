@@ -116,6 +116,7 @@
         ]
       },
       selectedItem: {},
+      selectedIndex: -1
     }),
     computed: {
       section() {
@@ -160,9 +161,9 @@
       },
       onResizeWindow() {
         if (this.layoutManager.needUpdate(this.getScreenSize)) {
-          this.layoutManager.configure(this.getScreenSize)
           this.selectedItem.isSelected = false
           this.layoutManager.restore()
+          this.layoutManager.configure(this.getScreenSize)
           this.layoutManager.update()
         }
       },
@@ -183,13 +184,16 @@
         })
       },
       onItemClicked(toggleItem, item, index) {
+        this.layoutManager.restore()
         if (this.selectedItem === item) {
+          toggleItem(this.selectedItem)
+        } else {
+          this.selectedItem.isSelected && toggleItem(this.selectedItem)
           toggleItem(item)
-        } else if (!this.selectedItem.isSelected) {
+          this.layoutManager.expandItemAt(index)
           this.selectedItem = item
+          this.selectedIndex = index
         }
-        this.$forceUpdate()
-        this.layoutManager.toggleItemAt(index)
       },
       update() {
         this.sectionCtrl.update(this.section)

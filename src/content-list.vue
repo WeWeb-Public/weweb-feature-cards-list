@@ -90,12 +90,6 @@
         }
       })
     },
-    watch: {
-      itemToSelect (next, previous) {
-        if (!next.isSelected && previous.isSelected) return
-        this.toggleItem(next)
-      }
-    },
     methods: {
       createItem () {
         if (this.items.length > 0) {
