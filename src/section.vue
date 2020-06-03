@@ -53,6 +53,7 @@
                    :class="{selected:isItemSelected(item)}">
                 <wwObject tag="div"
                           ww-default="ww-color"
+                          ww-category="background"
                           class="background"
                           :ww-object="item.media"
                 ></wwObject>

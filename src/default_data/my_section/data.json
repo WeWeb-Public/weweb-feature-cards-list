@@ -1,7 +1,7 @@
 {
   "name": "template",
   "background": {
-    "uniqueId": 9135883863,
+    "uniqueId": 14912338746,
     "wwVersion": 3,
     "content": {
       "type": "ww-color",
@@ -145,7 +145,7 @@
                       "bottom": 0
                     }
                   },
-                  "uniqueId": 11346867869,
+                  "uniqueId": 13762204645,
                   "wwVersion": 3
                 }
               ]
@@ -167,7 +167,7 @@
               "bottom": 0
             }
           },
-          "uniqueId": 11907323175,
+          "uniqueId": 8653075808,
           "wwVersion": 3
         },
         {
@@ -215,7 +215,7 @@
               "bottom": 8
             }
           },
-          "uniqueId": 15161816319,
+          "uniqueId": 8363324083,
           "wwVersion": 3
         },
         {
@@ -263,32 +263,63 @@
               "bottom": 8
             }
           },
-          "uniqueId": 11318487153,
+          "uniqueId": 8322933370,
           "wwVersion": 3
         }
       ],
       "media": {
-        "uniqueId": 5131722077,
+        "uniqueId": 2922838897,
         "wwVersion": 3,
         "content": {
-          "type": "ww-color",
           "data": {
-            "backgroundColor": "transparent",
+            "alt": "",
+            "pos": {},
+            "url": "https://cdn.weweb.app/designs/362/sections/image.png?v=1591193996390",
+            "zoom": 1,
+            "hover": {
+              "name": "",
+              "options": {}
+            },
             "style": {
-              "borderRadius": 0,
-              "borderWidth": 0,
+              "filter": null,
+              "overlay": null,
+              "boxShadow": {
+                "b": 0,
+                "c": "",
+                "s": 0,
+                "x": 0,
+                "y": 0
+              },
               "borderColor": null,
               "borderStyle": null,
-              "boxShadow": {
-                "x": 0,
-                "y": 0,
-                "b": 0,
-                "s": 0,
-                "c": ""
-              }
+              "borderWidth": 0,
+              "borderRadius": 0
             },
-            "wwObjects": []
-          }
+            "imgSize": {
+              "h": 1080,
+              "w": 1920
+            },
+            "twicUrl": "https://cdn.weweb.app/public/images/no_image_selected.png",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "animation": {
+              "fn": null,
+              "delay": 0,
+              "scale": 1,
+              "rotate": 0,
+              "opacity": 1,
+              "duration": 0,
+              "translateX": 0,
+              "translateY": 0
+            },
+            "focusPoint": [
+              50,
+              50
+            ]
+          },
+          "type": "ww-image"
         },
         "link": {
           "type": "none",
@@ -296,16 +327,16 @@
         },
         "ratio": -1,
         "paddings": {
-          "xs": {
-            "top": 0,
-            "left": 0,
-            "right": 0,
-            "bottom": 0
-          },
           "md": {
             "top": 0,
-            "left": 0,
-            "right": 0,
+            "left": null,
+            "right": null,
+            "bottom": 0
+          },
+          "xs": {
+            "top": 0,
+            "left": null,
+            "right": null,
             "bottom": 0
           }
         },
@@ -316,7 +347,7 @@
         "anim": {}
       },
       "summary": {
-        "uniqueId": 6672994937,
+        "uniqueId": 8685858920,
         "wwVersion": 3,
         "content": {
           "type": "ww-text",
