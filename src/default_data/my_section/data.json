@@ -1,3 +1,247 @@
 {
-  "name": "template"
+  "name": "template",
+  "background": {
+    "uniqueId": 10262706879,
+    "wwVersion": 3,
+    "content": {
+      "type": "ww-color",
+      "data": {
+        "backgroundColor": "transparent",
+        "style": {
+          "borderRadius": 0,
+          "borderWidth": 0,
+          "borderColor": null,
+          "borderStyle": null,
+          "boxShadow": {
+            "x": 0,
+            "y": 0,
+            "b": 0,
+            "s": 0,
+            "c": ""
+          }
+        },
+        "wwObjects": []
+      }
+    },
+    "link": {
+      "type": "none",
+      "data": {}
+    },
+    "ratio": -1,
+    "paddings": {
+      "xs": {
+        "top": 0,
+        "left": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "md": {
+        "top": 0,
+        "left": 0,
+        "right": 0,
+        "bottom": 0
+      }
+    },
+    "hidden": false,
+    "tags": [],
+    "children": {},
+    "data": {},
+    "anim": {}
+  },
+  "features": [
+    {
+      "uniqueId": 15381109899,
+      "contentList": [
+        {
+          "anim": {},
+          "data": {},
+          "link": {
+            "data": {},
+            "type": "none"
+          },
+          "tags": [],
+          "ratio": -1,
+          "hidden": false,
+          "content": {
+            "data": {
+              "_q": {
+                "fr": true
+              },
+              "tag": "div",
+              "font": "",
+              "size": "",
+              "text": {
+                "en": "<p style=\"text-align: left;\"><span class=\"ww-font-size-big\">The Sun</span></p>",
+                "fr": "<p>Nouveau texte</p>"
+              },
+              "align": "",
+              "color": "",
+              "classes": [],
+              "children": [],
+              "fontStyle": ""
+            },
+            "type": "ww-text"
+          },
+          "children": {},
+          "paddings": {
+            "md": {
+              "top": 8,
+              "left": 4,
+              "right": 4,
+              "bottom": 8
+            },
+            "xs": {
+              "top": 10,
+              "left": 0,
+              "right": 0,
+              "bottom": 8
+            }
+          },
+          "uniqueId": 4399458607,
+          "wwVersion": 3
+        },
+        {
+          "anim": {},
+          "data": {},
+          "link": {
+            "data": {},
+            "type": "none"
+          },
+          "tags": [],
+          "ratio": -1,
+          "hidden": false,
+          "content": {
+            "data": {
+              "_q": {
+                "fr": true
+              },
+              "tag": "div",
+              "font": "",
+              "size": "",
+              "text": {
+                "en": "<p style=\"text-align: left;\"><span style=\"color: rgb(117, 117, 117);\">The heart of our solar system</span></p>",
+                "fr": "<p>Nouveau texte</p>"
+              },
+              "align": "",
+              "color": "",
+              "classes": [],
+              "children": [],
+              "fontStyle": ""
+            },
+            "type": "ww-text"
+          },
+          "children": {},
+          "paddings": {
+            "md": {
+              "top": null,
+              "left": 4,
+              "right": 4,
+              "bottom": 8
+            },
+            "xs": {
+              "top": 8,
+              "left": 0,
+              "right": 0,
+              "bottom": 8
+            }
+          },
+          "uniqueId": 643521218,
+          "wwVersion": 3
+        }
+      ],
+      "media": {
+        "uniqueId": 14073834500,
+        "wwVersion": 3,
+        "content": {
+          "type": "ww-color",
+          "data": {
+            "backgroundColor": "transparent",
+            "style": {
+              "borderRadius": 0,
+              "borderWidth": 0,
+              "borderColor": null,
+              "borderStyle": null,
+              "boxShadow": {
+                "x": 0,
+                "y": 0,
+                "b": 0,
+                "s": 0,
+                "c": ""
+              }
+            },
+            "wwObjects": []
+          }
+        },
+        "link": {
+          "type": "none",
+          "data": {}
+        },
+        "ratio": -1,
+        "paddings": {
+          "xs": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "md": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        "hidden": false,
+        "tags": [],
+        "children": {},
+        "data": {},
+        "anim": {}
+      },
+      "summary": {
+        "uniqueId": 5899729088,
+        "wwVersion": 3,
+        "content": {
+          "type": "ww-text",
+          "data": {
+            "text": {
+              "fr": "Nouveau texte",
+              "en": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eu amet aliquam vitae quis ut adipiscing. Vivamus laoreet amet maecenas tincidunt. Vestibulum morbi non nisi mattis fringilla est pharetra, sit erat</p>"
+            },
+            "tag": "div",
+            "align": "",
+            "font": "",
+            "size": "",
+            "color": "",
+            "classes": [],
+            "children": [],
+            "fontStyle": ""
+          }
+        },
+        "link": {
+          "type": "none",
+          "data": {}
+        },
+        "ratio": -1,
+        "paddings": {
+          "xs": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "md": {
+            "top": 0,
+            "left": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        "hidden": false,
+        "tags": [],
+        "children": {},
+        "data": {},
+        "anim": {}
+      }
+    }
+  ]
 }

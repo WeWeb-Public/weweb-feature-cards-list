@@ -27,7 +27,8 @@
                :class="{selected:isItemSelected(item)}"
                @click="onItemClicked(toggleItem,item, index)">
             <div class="feature-item-content">
-              <div class="feature-item-left">
+              <div class="feature-item-left"
+                   :class="{selected:isItemSelected(item)}">
                 <wwLayoutColumn tag="div"
                                 ww-default="ww-text"
                                 :ww-list="item.contentList"
@@ -268,7 +269,7 @@
       flex-direction: row;
       height: 213px;
       width: 530px;
-      padding: 48px;
+      padding: 32px 48px;
     }
 
     @media (min-width: 1200px) {
@@ -281,6 +282,7 @@
 
       @media (min-width: 992px) {
         height: 473px;
+        padding: 48px;
       }
     }
 
@@ -300,23 +302,30 @@
       align-items: flex-start;
       justify-content: flex-start;
       width: 100%;
+      margin-bottom: 24px;
 
       @media (min-width: 992px) {
-        width: 50%;
+        padding-right: 32px;
+      }
+
+      @media (min-width: 1200px) {
+        padding-right: 48px;
       }
     }
 
     &-summary {
       visibility: hidden;
+      overflow: hidden;
+      opacity: 0;
 
       &.selected {
         visibility: visible;
         max-height: 200px;
-        overflow: hidden;
+        opacity: 1;
+        transition: opacity 2000ms 250ms;
 
         @media (min-width: 992px) {
           max-height: 100px;
-          max-width: 472px;;
         }
       }
     }
@@ -335,13 +344,17 @@
 
       &.selected {
         visibility: visible;
-        width: 190px;
-        height: 138px;
+        min-width: 190px;
+        min-height: 138px;
         opacity: 1;
 
+        @media (min-width: 768px) {
+          min-width: 364px;
+          min-height: 264px;
+        }
         @media (min-width: 992px) {
-          width: 520px;
-          height: 377px;
+          min-width: 520px;
+          min-height: 377px;
         }
       }
     }
