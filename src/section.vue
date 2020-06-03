@@ -187,6 +187,7 @@
         this.layoutManager.restore()
         if (this.selectedItem === item) {
           toggleItem(this.selectedItem)
+          this.selectedItem.isSelected && this.layoutManager.expandItemAt(this.selectedIndex)
         } else {
           this.selectedItem.isSelected && toggleItem(this.selectedItem)
           toggleItem(item)
