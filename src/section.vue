@@ -223,7 +223,6 @@
     left: 0;
     height: 100%;
     width: 100%;
-    z-index: -1;
   }
 
   .features-list {
@@ -323,14 +322,14 @@
     &-media {
       position: relative;
       visibility: hidden;
-      width: 0;
-      height: 0;
+      width: 190px;
+      height: 138px;
       margin: auto;
       background-color: #FFF;
       border-radius: 24px;
       overflow: hidden;
       opacity: 0;
-      transition: opacity 2000ms 250ms;
+      //transition: opacity 2000ms 250ms;
 
       &.selected {
         visibility: visible;
