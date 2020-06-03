@@ -83,7 +83,7 @@ const LayoutManager = (container) => {
     })
   }
 
-  const toMobileTranslations = (positions,selectedIndex) => {
+  const toMobileTranslations = (positions, selectedIndex) => {
     const {selectedElementHeight, elementHeight} = config
     return positions.map((pos, idx) => {
       return {
