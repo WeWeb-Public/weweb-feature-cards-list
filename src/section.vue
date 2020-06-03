@@ -299,7 +299,11 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      width: 50%;
+      width: 100%;
+
+      @media (min-width: 992px) {
+        width: 50%;
+      }
     }
 
     &-summary {
@@ -327,7 +331,7 @@
       border-radius: 24px;
       overflow: hidden;
       opacity: 0;
-      //transition: opacity 2000ms 250ms;
+      transition: opacity 2000ms 250ms;
 
       &.selected {
         visibility: visible;
