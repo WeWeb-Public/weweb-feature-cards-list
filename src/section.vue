@@ -50,11 +50,14 @@
                 ></wwObject>
               </div>
             </div>
-            <wwObject tag="div"
-                      class="feature-item-media"
-                      :class="{selected:isItemSelected(item)}"
-                      :ww-object="item.media"
-            ></wwObject>
+            <div class="feature-item-media"
+                 :class="{selected:isItemSelected(item)}">
+              <wwObject tag="div"
+                        ww-default="ww-color"
+                        class="background"
+                        :ww-object="item.media"
+              ></wwObject>
+            </div>
           </div>
         </template>
       </wwContentList>
@@ -299,6 +302,7 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
+      max-width: 472px;
     }
 
     &-summary {
@@ -317,6 +321,7 @@
     }
 
     &-media {
+      position: relative;
       visibility: hidden;
       width: 0;
       height: 0;
