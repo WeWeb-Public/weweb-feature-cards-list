@@ -92,7 +92,6 @@
     },
     watch: {
       itemToSelect (next, previous) {
-        console.log(next.isSelected, previous.isSelected)
         if (!next.isSelected && previous.isSelected) return
         this.toggleItem(next)
       }
