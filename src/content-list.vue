@@ -1,9 +1,8 @@
 <template>
-  <ul :class="listClass"
-      class="list">
+  <ul :class="listClass">
     <li v-for="(item, index) in items"
-        :key="item.uniqueId"
-        :class="itemWrapperClass">
+        :class="itemWrapperClass"
+        :key="item.uniqueId">
       <!-- wwManager:start -->
       <wwContextMenu v-if="editMode"
                      class="ww-orange-button"
@@ -18,7 +17,8 @@
       <slot name="row"
             :item="item"
             :index="index"
-            :selectItem="toggleItem">
+            :toggleItem="toggleItem"
+            :isItemSelected="isItemSelected">
       </slot>
     </li>
   </ul>
@@ -39,7 +39,7 @@
         required: true
       },
       newItem: {
-        type: Object,
+        type: Function,
         required: true
       },
       listClass: String,
@@ -52,7 +52,7 @@
     },
     data: () => ({
       items: [],
-      selectedItem: {},
+      selectedItem: void 0,
       elemOptions: {
         items: [
           {
@@ -83,16 +83,18 @@
       }
     }),
     created () {
-      this.items = this.list.map((item, idx) => {
+      this.items = this.list.map(item => {
         return {
-          isSelected: false,
           ...item,
+          isSelected: false
         }
       })
     },
     watch: {
-      itemToSelect (item) {
-        this.toggleItem(item)
+      itemToSelect (next, previous) {
+        console.log(next.isSelected, previous.isSelected)
+        if (!next.isSelected && previous.isSelected) return
+        this.toggleItem(next)
       }
     },
     methods: {
@@ -103,10 +105,13 @@
           item.uniqueId = wwu.getUniqueId()
           return item
         }
-        return {...this.newItem}
+        return this.newItem()
       },
       toggleItem (item) {
         item.isSelected = !item.isSelected
+      },
+      isItemSelected (item) {
+        return item.isSelected
       },
       addItemBefore (index) {
         this.addItemAt(index === 0 ? 0 : index - 1)
@@ -119,21 +124,13 @@
         const head = items.slice(0, index)
         const tail = index === 0 ? items : items.slice(index)
         this.items = [...head, this.createItem(), ...tail]
-        this.$forceUpdate()
         this.onListChanged()
       },
       removeItem (item) {
         if (this.items.length === 1) return
         this.items = this.items.filter(aItem => aItem !== item)
-        this.$forceUpdate()
         this.onListChanged()
       }
     }
   }
 </script>
-<style>
-  .list {
-    position: relative;
-    pointer-events: auto !important;
-  }
-</style>

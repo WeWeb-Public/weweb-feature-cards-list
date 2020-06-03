@@ -8,6 +8,14 @@ const LayoutManager = (container) => {
       selectedElementHeight: 575,
       itemsPerRow: 1,
     },
+    labTop: {
+      horizontalGutter: 32,
+      verticalGutter: 48,
+      elementWidth: 530,
+      elementHeight: 213,
+      selectedElementHeight: 473,
+      itemsPerRow: 2
+    },
     desktop: {
       horizontalGutter: 48,
       verticalGutter: 48,
@@ -23,16 +31,20 @@ const LayoutManager = (container) => {
   const view = {
     container,
     elements: [],
-    isMobile: false,
+    kind: ''
   }
 
   const state = {
     isOpened: false,
     selectedIndex: -1,
-    initialPositions: [],
+    positions: [],
   }
 
-  const computeInitialPositions = (elements) => {
+  const computeViewKind=(screenSize)=>{
+    return screenSize === 'xs' || screenSize === 'sm' ? 'mobile' : screenSize === 'md' ? 'labTop' : 'desktop'
+  }
+
+  const computePositions = (elements) => {
     let rowNumber = 0
     let colNumber = 0
     const {horizontalGutter, verticalGutter, elementHeight, elementWidth, itemsPerRow} = config
@@ -46,14 +58,14 @@ const LayoutManager = (container) => {
     })
   }
 
-  const computeTranslationsForDesktop = (initialPositions) => {
+  const toDesktopTransitions = (positions) => {
     const {horizontalGutter, verticalGutter, elementWidth, elementHeight, selectedElementHeight} = config
     const {selectedIndex} = state
     const isSelectedIndexEven = selectedIndex % 2 === 0
 
     let translateX = 0
     let translateY = 0
-    return initialPositions.map((pos, idx) => {
+    return positions.map((pos, idx) => {
       const isIndexEven = idx % 2 === 0
       if (idx === selectedIndex - 1 && !isSelectedIndexEven) {
         translateX = 0
@@ -72,10 +84,10 @@ const LayoutManager = (container) => {
     })
   }
 
-  const computeTranslationsForMobile = (initialPositions) => {
+  const toMobileTranslations = (positions) => {
     const {selectedElementHeight, elementHeight} = config
     const {selectedIndex} = state
-    return initialPositions.map((pos, idx) => {
+    return positions.map((pos, idx) => {
       return {
         translateX: 0,
         translateY: idx > selectedIndex ? selectedElementHeight - elementHeight : 0
@@ -83,68 +95,65 @@ const LayoutManager = (container) => {
     })
   }
 
-  const layoutElements = () => {
-    const {initialPositions} = state
-    const {elements} = view
+  const layoutElements = (elements, positions) => {
     requestAnimationFrame(() => {
       elements.forEach((el, index) => {
-        const {top, left} = initialPositions[index]
+        const {top, left} = positions[index]
         el.style.top = `${top}px`
         el.style.left = `${left}px`
       })
     })
-    state.isOpened = false
   }
 
   const translateElements = (translations) => {
-    const {selectedIndex} = state
     const {elements} = view
     requestAnimationFrame(() => {
       elements.forEach((el, index) => {
-        const {translateX, translateY} = translations[index];
-        (index === selectedIndex) && el.classList.add('selected')
+        const {translateX, translateY} = translations[index]
         el.style.transform = `translate(${translateX}px, ${translateY}px)`
       })
     })
     state.isOpened = true
   }
 
-  const restoreInitialLayout = () => {
-    const {selectedIndex} = state
+  const restorePositions = () => {
     const {elements} = view
     requestAnimationFrame(() => {
-      elements.forEach((el, idx) => {
-        el.style.transform = 'translate(0px, 0px)';
-        (selectedIndex === idx) && el.classList.remove('selected')
-      })
+      elements.forEach((el, idx) => el.style.transform = 'translate(0px, 0px)')
     })
     state.isOpened = false
     state.selectedIndex = -1
   }
 
   return {
-    configure (isMobile) {
-      const {desktop, mobile} = options
+    configure (screenSize) {
+      view.kind = computeViewKind(screenSize)
       Object.assign(
-        config, isMobile ? mobile : desktop
+        config, options[view.kind]
       )
-      view.isMobile = isMobile
     },
     update () {
-      view.elements = [...view.container.querySelectorAll('.feature-item')]
-      state.initialPositions = computeInitialPositions(view.elements)
-      layoutElements()
+      view.elements = [...view.container.querySelectorAll('li')]
+      state.positions = computePositions(view.elements)
+      layoutElements(view.elements, state.positions)
+      state.isOpened = false
     },
+
+    needUpdate (screenSize) {
+      view.kind = computeViewKind(screenSize)
+      return screenSize !== view.kind
+    },
+
     toggleItemAt (index) {
-      const {selectedIndex, initialPositions, isOpened} = state
+      const {selectedIndex, positions, isOpened} = state
       if (isOpened && selectedIndex !== index) return
       if (selectedIndex === index) {
-        restoreInitialLayout()
+        restorePositions()
         return
       }
       state.selectedIndex = index
-      const computeTranslationsFn = view.isMobile ? computeTranslationsForMobile : computeTranslationsForDesktop
-      translateElements(computeTranslationsFn(initialPositions))
+      const computeTranslationsFn = view.kind === 'mobile' ? toMobileTranslations : toDesktopTransitions
+      translateElements(computeTranslationsFn(positions))
     }
   }
 }

@@ -14,7 +14,7 @@
     "create-config": "weweb-config"
   },
   "dependencies": {
-    "vue": "2.6.10"
+    "vue": "2.6.10",
   },
   "devDependencies": {
     "weweb-client": "1.0.50"

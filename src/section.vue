@@ -4,7 +4,7 @@
 
 <!-- This is your HTML -->
 <template>
-  <div>
+  <div class="ww-features-cards-list">
     <div class="section-container">
       <!-- wwManager:start -->
       <wwSectionEditMenu :sectionCtrl="sectionCtrl"></wwSectionEditMenu>
@@ -14,21 +14,48 @@
                 :ww-object="section.data.background"
                 ww-category="background"></wwObject>
 
-      <ww-content-list :list="section.data.features"
-                       :list-class="'features-list'"
-                       :edit-mode="editMode"
-                       :new-item="createFeature()"
-                       :on-list-changed="onListChanged"
-                        ref="featuresList">
-        <template #row="{item,index,selectItem}">
+      <wwContentList :list="section.data.features"
+                     :edit-mode="editMode"
+                     :new-item="getNewFeature"
+                     :item-to-select="selectedItem"
+                     :on-list-changed="onFeatureListChanged"
+                     :list-class="'features-list'"
+                     :item-wrapper-class="'features-item-wrapper'"
+                     ref="featuresList">
+        <template #row="{item,index,isItemSelected,toggleItem}">
           <div class="feature-item"
-               :data-idx="index"
-               :class="{selected:item.isSelected}"
-               @click="onItemClicked(index)">
-            <span>{{index}}</span>
+               :class="{selected:isItemSelected(item)}"
+               @click="onItemClicked(toggleItem,item, index)">
+            <div class="feature-item-content">
+              <wwLayoutColumn tag="div"
+                              ww-default="ww-text"
+                              class="feature-item-top"
+                              :ww-list="item.contentList"
+                              @ww-add="add(item.contentList, $event)"
+                              @ww-remove="remove(item.contentList, $event)">
+                <wwObject tag="div"
+                          ww-default="ww-text"
+                          v-for="content in item.contentList"
+                          :class="{selected:isItemSelected(item)}"
+                          :key="content.uniqueId"
+                          :ww-object="content">
+                </wwObject>
+                <wwObject tag="div"
+                          ww-default="ww-text"
+                          class="feature-item-summary"
+                          :class="{selected:isItemSelected(item)}"
+                          :ww-object="item.summary"
+                ></wwObject>
+              </wwLayoutColumn>
+            </div>
+            <wwObject tag="div"
+                      class="feature-item-media"
+                      :class="{selected:isItemSelected(item)}"
+                      :ww-object="item.media"
+            ></wwObject>
           </div>
         </template>
-      </ww-content-list>
+      </wwContentList>
     </div>
   </div>
 </template>
@@ -41,8 +68,8 @@
   const wwu = window.wwLib.wwUtils
 
   import wwContentList from './content-list.vue'
+
   import LayoutManager from './layoutManager'
-  import { getViewPortInfos } from './viewPort'
 
   export default {
     name: '__COMPONENT_NAME__',
@@ -81,25 +108,26 @@
           }
         ]
       },
+      selectedItem: {},
       layoutManager: {},
-      viewPortIsMobile: false,
     }),
     computed: {
       section () {
         return this.sectionCtrl.get()
       },
-
       editMode () {
         return this.sectionCtrl.getEditMode() === 'CONTENT'
       },
+      getScreenSize () {
+        return this.$store.getters['front/getScreenSize']
+      }
     },
     created () {
       this.init()
     },
     mounted () {
-      const {isMobile} = getViewPortInfos(window)
       this.layoutManager = LayoutManager(this.$refs.featuresList.$el)
-      this.layoutManager.configure(isMobile)
+      this.layoutManager.configure(this.getScreenSize)
       this.layoutManager.update()
       window.addEventListener('resize', this.onResizeWindow)
     },
@@ -118,7 +146,6 @@
           })
           needUpdate = true
         }
-
         if (!this.section.data.features) {
           this.section.data.features = [this.getNewFeature()]
           needUpdate = true
@@ -126,11 +153,9 @@
         needUpdate && this.update()
       },
       onResizeWindow () {
-        const {isMobile} = getViewPortInfos(window)
-        if (isMobile !== this.viewPortIsMobile) {
-          this.layoutManager.configure(isMobile)
+        if (this.layoutManager.needUpdate(this.getScreenSize)) {
+          this.layoutManager.configure(this.getScreenSize)
           this.layoutManager.update()
-          this.viewPortIsMobile = isMobile
         }
       },
       getNewFeature: () => ({
@@ -139,30 +164,41 @@
         media: wwo.getDefault({
           type: 'ww-color'
         }),
+        summary: wwo.getDefault({
+          type: 'ww-text'
+        })
       }),
-
-      createFeature () {
-        const {features} = this.section.data
-        if (Array.isArray((features)) && features.length > 0) {
-          const feature = JSON.parse(JSON.stringify(features[0]))
-          wwu.changeUniqueIds(feature)
-          feature.uniqueId = wwu.getUniqueId()
-          return feature
-        }
-        return this.getNewFeature()
-      },
-      onListChanged () {
+      onFeatureListChanged () {
+        this.update()
         this.$nextTick(() => {
           this.layoutManager.update()
         })
       },
-
-      onItemClicked (index) {
+      onItemClicked (toggleItem, item, index) {
+        if (this.selectedItem === item) {
+          toggleItem(item)
+        } else if (!this.selectedItem.isSelected) {
+          this.selectedItem = item
+        }
+        this.$forceUpdate()
         this.layoutManager.toggleItemAt(index)
       },
       update () {
         this.sectionCtrl.update(this.section)
+      },
+      // --------- EDITOR FUNCTIONS ---------
+      // All the codes between /* wwManager:start */ and /* wwManager:end */ are only for editor purposes
+      // So It won't in the published website!
+      /* wwManager:start */
+      add (list, options) {
+        list.splice(options.index, 0, options.wwObject)
+        this.sectionCtrl.update(this.section)
+      },
+      remove (list, options) {
+        list.splice(options.index, 1)
+        this.sectionCtrl.update(this.section)
       }
+      /* wwManager:end */
     }
   }
 </script>
@@ -190,41 +226,116 @@
     width: 100%;
     min-height: 500px;
     height: auto;
-    margin: auto;
-    padding: 0 16px 0 16px;
+    margin: 0 auto;
+    padding: 0;
     list-style-type: none;
-    transition: all 1000ms;
 
     @media (min-width: 1440px) {
       width: 1184px;
-      padding: 0;
     }
+  }
+
+  .features-list::v-deep .features-item-wrapper {
+    position: absolute;
+    width: 100%;
+    transform-origin: left top;
+    will-change: transform;
+    transition: all 500ms;
   }
 
   .feature-item {
     --color-grey-light: #F6F6F6;
-    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
     height: 180px;
-    border-radius: 4px;
+    padding: 24px 48px;
+    border-radius: 24px;
     background-color: var(--color-grey-light);
-    flex-basis: auto;
     transform-origin: left top;
     transition: all 500ms;
+    overflow: hidden;
+    cursor: pointer;
+    pointer-events: all;
+    z-index: 1;
 
-    @media (min-width: 1024px) {
+    @media (min-width: 992px) {
+      flex-direction: row;
       height: 213px;
-      width: 568px;
+      width: 530px;
+      padding: 48px;
+    }
+
+    @media (min-width: 1200px) {
+      width: calc(50% - 24px);
     }
 
     &.selected {
       width: 100%;
       height: 575px;
 
-      @media (min-width: 1024px) {
+      @media (min-width: 992px) {
         height: 473px;
       }
     }
-  }
 
+    &-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      z-index: 10;
+
+      @media (min-width: 992px) {
+        flex-direction: row;
+      }
+    }
+
+    &-top {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    &-summary {
+      visibility: hidden;
+
+      &.selected {
+        visibility: visible;
+        max-height: 200px;
+        overflow: hidden;
+
+        @media (min-width: 992px) {
+          max-height: 100px;
+          max-width: 472px;;
+        }
+      }
+    }
+
+    &-media {
+      visibility: hidden;
+      width: 0;
+      height: 0;
+      margin: auto;
+      background-color: #FFF;
+      border-radius: 24px;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 2000ms 250ms;
+
+      &.selected {
+        visibility: visible;
+        width: 190px;
+        height: 138px;
+        opacity: 1;
+
+        @media (min-width: 992px) {
+          width: 520px;
+          height: 377px;
+        }
+      }
+    }
+  }
 </style>
