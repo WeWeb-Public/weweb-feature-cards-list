@@ -27,26 +27,28 @@
                :class="{selected:isItemSelected(item)}"
                @click="onItemClicked(toggleItem,item, index)">
             <div class="feature-item-content">
-              <wwLayoutColumn tag="div"
-                              ww-default="ww-text"
-                              class="feature-item-top"
-                              :ww-list="item.contentList"
-                              @ww-add="add(item.contentList, $event)"
-                              @ww-remove="remove(item.contentList, $event)">
-                <wwObject tag="div"
-                          ww-default="ww-text"
-                          v-for="content in item.contentList"
-                          :class="{selected:isItemSelected(item)}"
-                          :key="content.uniqueId"
-                          :ww-object="content">
-                </wwObject>
+              <div class="feature-item-left">
+                <wwLayoutColumn tag="div"
+                                ww-default="ww-text"
+                                class="feature-item-top"
+                                :ww-list="item.contentList"
+                                @ww-add="add(item.contentList, $event)"
+                                @ww-remove="remove(item.contentList, $event)">
+                  <wwObject tag="div"
+                            ww-default="ww-text"
+                            v-for="content in item.contentList"
+                            :class="{selected:isItemSelected(item)}"
+                            :key="content.uniqueId"
+                            :ww-object="content">
+                  </wwObject>
+                </wwLayoutColumn>
                 <wwObject tag="div"
                           ww-default="ww-text"
                           class="feature-item-summary"
                           :class="{selected:isItemSelected(item)}"
                           :ww-object="item.summary"
                 ></wwObject>
-              </wwLayoutColumn>
+              </div>
             </div>
             <wwObject tag="div"
                       class="feature-item-media"
@@ -292,7 +294,7 @@
       }
     }
 
-    &-top {
+    &-left {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
