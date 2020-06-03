@@ -30,7 +30,6 @@
               <div class="feature-item-left">
                 <wwLayoutColumn tag="div"
                                 ww-default="ww-text"
-                                class="feature-item-top"
                                 :ww-list="item.contentList"
                                 @ww-add="add(item.contentList, $event)"
                                 @ww-remove="remove(item.contentList, $event)">
@@ -49,14 +48,14 @@
                           :ww-object="item.summary"
                 ></wwObject>
               </div>
-            </div>
-            <div class="feature-item-media"
-                 :class="{selected:isItemSelected(item)}">
-              <wwObject tag="div"
-                        ww-default="ww-color"
-                        class="background"
-                        :ww-object="item.media"
-              ></wwObject>
+              <div class="feature-item-media"
+                   :class="{selected:isItemSelected(item)}">
+                <wwObject tag="div"
+                          ww-default="ww-color"
+                          class="background"
+                          :ww-object="item.media"
+                ></wwObject>
+              </div>
             </div>
           </div>
         </template>
@@ -289,7 +288,6 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      z-index: 10;
 
       @media (min-width: 992px) {
         flex-direction: row;
@@ -301,7 +299,7 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      max-width: 472px;
+      width: 50%;
     }
 
     &-summary {
