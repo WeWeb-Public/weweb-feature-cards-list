@@ -100,7 +100,7 @@
       createItem () {
         if (this.items.length > 0) {
           const item = JSON.parse(JSON.stringify(this.items[0]))
-          wwu.changeUniqueIds(item.value)
+          wwu.changeUniqueIds(item)
           item.uniqueId = wwu.getUniqueId()
           return item
         }
