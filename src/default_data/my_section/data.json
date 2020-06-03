@@ -1,7 +1,7 @@
 {
   "name": "template",
   "background": {
-    "uniqueId": 10262706879,
+    "uniqueId": 9135883863,
     "wwVersion": 3,
     "content": {
       "type": "ww-color",
@@ -64,6 +64,124 @@
           "hidden": false,
           "content": {
             "data": {
+              "align": "center",
+              "justify": "flex-start",
+              "wwObjects": [
+                {
+                  "new": false,
+                  "anim": {},
+                  "data": {},
+                  "link": {
+                    "data": {},
+                    "type": "none"
+                  },
+                  "tags": [],
+                  "ratio": -1,
+                  "hidden": false,
+                  "content": {
+                    "data": {
+                      "alt": "",
+                      "pos": {},
+                      "url": "https://cdn.weweb.app/designs/362/sections/feature-card-logo.svg?v=1591084460022",
+                      "zoom": 0.6737034574468085,
+                      "hover": {
+                        "name": "",
+                        "options": {}
+                      },
+                      "style": {
+                        "filter": null,
+                        "overlay": null,
+                        "boxShadow": {
+                          "b": 0,
+                          "c": "",
+                          "s": 0,
+                          "x": 0,
+                          "y": 0
+                        },
+                        "borderColor": null,
+                        "borderStyle": null,
+                        "borderWidth": 0,
+                        "borderRadius": 0,
+                        "minWidth": "95"
+                      },
+                      "imgSize": {
+                        "h": 1080,
+                        "w": 1920
+                      },
+                      "twicUrl": "https://cdn.weweb.app/public/images/no_image_selected.png",
+                      "position": {
+                        "x": -23.4375,
+                        "y": 0
+                      },
+                      "animation": {
+                        "fn": null,
+                        "delay": 0,
+                        "scale": 1,
+                        "rotate": 0,
+                        "opacity": 1,
+                        "duration": 0,
+                        "translateX": 0,
+                        "translateY": 0
+                      },
+                      "focusPoint": [
+                        50,
+                        50
+                      ]
+                    },
+                    "type": "ww-image"
+                  },
+                  "children": {},
+                  "paddings": {
+                    "md": {
+                      "top": 0,
+                      "left": 8,
+                      "right": 8,
+                      "bottom": 0
+                    },
+                    "xs": {
+                      "top": 0,
+                      "left": 8,
+                      "right": 8,
+                      "bottom": 0
+                    }
+                  },
+                  "uniqueId": 11346867869,
+                  "wwVersion": 3
+                }
+              ]
+            },
+            "type": "ww-row"
+          },
+          "children": {},
+          "paddings": {
+            "md": {
+              "top": 0,
+              "left": "0",
+              "right": "0",
+              "bottom": 0
+            },
+            "xs": {
+              "top": 0,
+              "left": 0,
+              "right": 0,
+              "bottom": 0
+            }
+          },
+          "uniqueId": 11907323175,
+          "wwVersion": 3
+        },
+        {
+          "anim": {},
+          "data": {},
+          "link": {
+            "data": {},
+            "type": "none"
+          },
+          "tags": [],
+          "ratio": -1,
+          "hidden": false,
+          "content": {
+            "data": {
               "_q": {
                 "fr": true
               },
@@ -91,13 +209,13 @@
               "bottom": 8
             },
             "xs": {
-              "top": 10,
+              "top": 8,
               "left": 0,
               "right": 0,
               "bottom": 8
             }
           },
-          "uniqueId": 4399458607,
+          "uniqueId": 15161816319,
           "wwVersion": 3
         },
         {
@@ -145,12 +263,12 @@
               "bottom": 8
             }
           },
-          "uniqueId": 643521218,
+          "uniqueId": 11318487153,
           "wwVersion": 3
         }
       ],
       "media": {
-        "uniqueId": 14073834500,
+        "uniqueId": 5131722077,
         "wwVersion": 3,
         "content": {
           "type": "ww-color",
@@ -198,7 +316,7 @@
         "anim": {}
       },
       "summary": {
-        "uniqueId": 5899729088,
+        "uniqueId": 6672994937,
         "wwVersion": 3,
         "content": {
           "type": "ww-text",
