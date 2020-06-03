@@ -84,6 +84,7 @@
     components: {
       wwContentList
     },
+    layoutManager: {},
     data: () => ({
       elemOptions: {
         items: [
@@ -114,7 +115,6 @@
         ]
       },
       selectedItem: {},
-      layoutManager: {},
     }),
     computed: {
       section() {
