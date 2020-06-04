@@ -40,14 +40,17 @@
       },
       newItem: {
         type: Function,
-        required: true
+        required: true,
+        default: () => {
+        }
       },
       listClass: String,
       itemWrapperClass: String,
       itemToSelect: Object,
       onListChanged: {
         type: Function,
-        default: () => {}
+        default: () => {
+        }
       }
     },
     data: () => ({
@@ -82,7 +85,7 @@
         ]
       }
     }),
-    created () {
+    created() {
       this.items = this.list.map(item => {
         return {
           ...item,
@@ -91,7 +94,7 @@
       })
     },
     methods: {
-      createItem () {
+      createItem() {
         if (this.items.length > 0) {
           const item = JSON.parse(JSON.stringify(this.items[0]))
           wwu.changeUniqueIds(item)
@@ -100,26 +103,26 @@
         }
         return this.newItem()
       },
-      toggleItem (item) {
+      toggleItem(item) {
         item.isSelected = !item.isSelected
       },
-      isItemSelected (item) {
+      isItemSelected(item) {
         return item.isSelected
       },
-      addItemBefore (index) {
+      addItemBefore(index) {
         this.addItemAt(index === 0 ? 0 : index - 1)
       },
-      addItemAfter (index) {
+      addItemAfter(index) {
         this.addItemAt(index + 1)
       },
-      addItemAt (index) {
+      addItemAt(index) {
         const items = [...this.items]
         const head = items.slice(0, index)
         const tail = index === 0 ? items : items.slice(index)
         this.items = [...head, this.createItem(), ...tail]
         this.onListChanged()
       },
-      removeItem (item) {
+      removeItem(item) {
         if (this.items.length === 1) return
         this.items = this.items.filter(aItem => aItem !== item)
         this.onListChanged()
