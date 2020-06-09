@@ -126,8 +126,7 @@
       removeItem (item) {
         if (this.items.length === 1) return
         this.items = this.items.filter(aItem => aItem !== item)
-        const {items} = this
-        this.onListChanged(items)
+        this.onListChanged(this.items)
       }
     }
   }

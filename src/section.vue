@@ -17,7 +17,6 @@
       <wwContentList :list="section.data.features"
                      :edit-mode="editMode"
                      :new-item="getNewFeature"
-                     :item-to-select="selectedItem"
                      :on-list-changed="onFeatureListChanged"
                      :list-class="'features-list'"
                      :item-wrapper-class="'features-item-wrapper'"
@@ -119,31 +118,31 @@
       selectedIndex: -1
     }),
     computed: {
-      section() {
+      section () {
         return this.sectionCtrl.get()
       },
-      editMode() {
+      editMode () {
         return this.sectionCtrl.getEditMode() === 'CONTENT'
       },
-      getScreenSize() {
+      getScreenSize () {
         return this.$store.getters['front/getScreenSize']
       }
     },
-    created() {
+    created () {
       this.init()
     },
-    mounted() {
+    mounted () {
       this.layoutManager = LayoutManager(this.$refs.featuresList.$el)
       this.layoutManager.configure(this.getScreenSize)
       this.layoutManager.update()
       window.addEventListener('resize', this.onResizeWindow)
     },
-    destroyed() {
+    destroyed () {
       window.removeEventListener('resize', this.onResizeWindow)
     },
 
     methods: {
-      init() {
+      init () {
         let needUpdate = false
         this.section.data = this.section.data || {}
 
@@ -159,7 +158,7 @@
         }
         needUpdate && this.update()
       },
-      onResizeWindow() {
+      onResizeWindow () {
         if (this.layoutManager.needUpdate(this.getScreenSize)) {
           this.selectedItem.isSelected = false
           this.layoutManager.restore()
@@ -177,13 +176,14 @@
           type: 'ww-text'
         })
       }),
-      onFeatureListChanged() {
+      onFeatureListChanged (items) {
+        this.section.data.features=items
         this.update()
         this.$nextTick(() => {
           this.layoutManager.update()
         })
       },
-      onItemClicked(toggleItem, item, index) {
+      onItemClicked (toggleItem, item, index) {
         this.layoutManager.restore()
         if (this.selectedItem === item) {
           toggleItem(this.selectedItem)
@@ -196,18 +196,18 @@
           this.selectedIndex = index
         }
       },
-      update() {
+      update () {
         this.sectionCtrl.update(this.section)
       },
       // --------- EDITOR FUNCTIONS ---------
       // All the codes between /* wwManager:start */ and /* wwManager:end */ are only for editor purposes
       // So It won't in the published website!
       /* wwManager:start */
-      add(list, options) {
+      add (list, options) {
         list.splice(options.index, 0, options.wwObject)
         this.sectionCtrl.update(this.section)
       },
-      remove(list, options) {
+      remove (list, options) {
         list.splice(options.index, 1)
         this.sectionCtrl.update(this.section)
       }
@@ -219,152 +219,157 @@
 <style lang="scss"
        scoped>
 
-  .section-container {
-    padding: 24px;
-    margin: auto;
-    color: var(--color-true-black);
-  }
+  .ww-features-cards-list {
 
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-  }
-
-  .features-list {
-    position: relative;
-    width: 100%;
-    min-height: 500px;
-    height: auto;
-    margin: 0 auto;
-    padding: 0;
-    list-style-type: none;
-
-    @media (min-width: 1440px) {
-      width: 1184px;
-    }
-  }
-
-  .features-list::v-deep .features-item-wrapper {
-    position: absolute;
-    width: 100%;
-    transform-origin: left top;
-    will-change: transform;
-    transition: all 500ms;
-  }
-
-  .feature-item {
-    --color-grey-light: #F6F6F6;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 180px;
-    padding: 24px 48px;
-    border-radius: 24px;
-    background-color: var(--color-grey-light);
-    transform-origin: left top;
-    transition: all 500ms;
-    overflow: hidden;
-    cursor: pointer;
-    pointer-events: all;
-    z-index: 1;
-
-    @media (min-width: 992px) {
-      flex-direction: row;
-      height: 213px;
-      width: 530px;
-      padding: 32px 48px;
+    .section-container {
+      padding: 24px;
+      margin: auto;
+      color: var(--color-true-black);
     }
 
-    @media (min-width: 1200px) {
-      width: calc(50% - 24px);
-    }
-
-    &.selected {
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
       width: 100%;
-      height: 575px;
+    }
 
-      @media (min-width: 992px) {
-        height: 473px;
-        padding: 48px;
+    .features-list {
+      position: relative;
+      width: 100%;
+      min-height: 500px;
+      height: auto;
+      margin: 0 auto;
+      padding: 0;
+      list-style-type: none;
+
+      @media (min-width: 1440px) {
+        width: 1184px;
       }
     }
 
-    &-content {
+    .features-list::v-deep .features-item-wrapper {
+      position: absolute;
+      width: 100%;
+      transform-origin: left top;
+      will-change: transform;
+      transition: all 500ms;
+    }
+
+    .feature-item {
+      --color-grey-light: #F6F6F6;
+
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       width: 100%;
+      height: 180px;
+      padding: 24px 48px;
+      border-radius: 24px;
+      background-color: var(--color-grey-light);
+      transform-origin: left top;
+      transition: all 500ms;
+      overflow: hidden;
+      cursor: pointer;
+      pointer-events: all;
+      z-index: 1;
 
       @media (min-width: 992px) {
         flex-direction: row;
-      }
-    }
-
-    &-left {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      width: 100%;
-      margin-bottom: 24px;
-
-      @media (min-width: 992px) {
-        padding-right: 32px;
+        height: 213px;
+        width: 530px;
+        padding: 32px 48px;
       }
 
       @media (min-width: 1200px) {
-        padding-right: 48px;
+        width: calc(50% - 24px);
       }
-    }
-
-    &-summary {
-      visibility: hidden;
-      overflow: hidden;
-      opacity: 0;
 
       &.selected {
-        visibility: visible;
-        max-height: 200px;
-        opacity: 1;
+        width: 100%;
+        height: 575px;
+
+        @media (min-width: 992px) {
+          height: 473px;
+          padding: 48px;
+        }
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        @media (min-width: 992px) {
+          flex-direction: row;
+        }
+      }
+
+      &-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        margin-bottom: 24px;
+
+        @media (min-width: 992px) {
+          padding-right: 32px;
+        }
+
+        @media (min-width: 1200px) {
+          padding-right: 48px;
+        }
+      }
+
+      &-summary {
+        visibility: hidden;
+        overflow: hidden;
+        opacity: 0;
+
+        &.selected {
+          visibility: visible;
+          max-height: 200px;
+          opacity: 1;
+          transition: opacity 2000ms 250ms;
+
+          @media (min-width: 992px) {
+            max-height: 100px;
+          }
+        }
+      }
+
+      &-media {
+        position: relative;
+        visibility: hidden;
+        width: 190px;
+        height: 138px;
+        margin: auto;
+        background-color: #FFF;
+        border-radius: 24px;
+        overflow: hidden;
+        opacity: 0;
         transition: opacity 2000ms 250ms;
 
-        @media (min-width: 992px) {
-          max-height: 100px;
-        }
-      }
-    }
+        &.selected {
+          visibility: visible;
+          min-width: 190px;
+          min-height: 138px;
+          opacity: 1;
 
-    &-media {
-      position: relative;
-      visibility: hidden;
-      width: 190px;
-      height: 138px;
-      margin: auto;
-      background-color: #FFF;
-      border-radius: 24px;
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 2000ms 250ms;
-
-      &.selected {
-        visibility: visible;
-        min-width: 190px;
-        min-height: 138px;
-        opacity: 1;
-
-        @media (min-width: 768px) {
-          min-width: 364px;
-          min-height: 264px;
-        }
-        @media (min-width: 992px) {
-          min-width: 520px;
-          min-height: 377px;
+          @media (min-width: 768px) {
+            min-width: 364px;
+            min-height: 264px;
+          }
+          @media (min-width: 992px) {
+            min-width: 520px;
+            min-height: 377px;
+          }
         }
       }
     }
   }
+
+
 </style>
