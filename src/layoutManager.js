@@ -35,6 +35,7 @@ const LayoutManager = (container) => {
   }
 
   const state = {
+    containerHeight: 0,
     selectedIndex: -1,
     positions: [],
   }
@@ -94,49 +95,57 @@ const LayoutManager = (container) => {
 
   const layout = (elements, positions) => {
     requestAnimationFrame(() => {
+      const {elementHeight, verticalGutter, itemsPerRow} = config
+      let numRow = 0
       elements.forEach((el, index) => {
         const {top, left} = positions[index]
         el.style.top = `${top}px`
         el.style.left = `${left}px`
+        numRow = Math.floor(index / itemsPerRow)
       })
+      state.containerHeight = (numRow + 1) * (elementHeight + verticalGutter)
+      container.style.height = `${state.containerHeight}px`
     })
   }
 
   const translate = (elements, translations) => {
+    const {elementHeight, selectedElementHeight, verticalGutter, itemsPerRow} = config
     requestAnimationFrame(() => {
       elements.forEach((el, index) => {
         const {translateX, translateY} = translations[index]
         el.style.transform = `translate(${translateX}px, ${translateY}px)`
       })
+      const factor = elements.length % itemsPerRow === 0 ? 1 : 0
+      container.style.height = `${state.containerHeight + (selectedElementHeight - elementHeight) + factor * (elementHeight + verticalGutter)}px`
     })
   }
 
   const restore = (elements) => {
     requestAnimationFrame(() => {
-      elements.forEach((el, idx) => el.style.transform = 'translate(0px, 0px)')
+      elements.forEach(el => el.style.transform = 'translate(0px, 0px)')
+      container.style.height = `${state.containerHeight}px`
     })
-
   }
 
   return {
-    configure(screenSize) {
+    configure (screenSize) {
       view.kind = computeViewKind(screenSize)
       Object.assign(
-          config, options[view.kind]
+        config, options[view.kind]
       )
     },
-    update() {
+    update () {
       view.elements = [...view.container.querySelectorAll('li')]
       state.positions = computePositions(view.elements)
       layout(view.elements, state.positions)
     },
 
-    needUpdate(screenSize) {
+    needUpdate (screenSize) {
       view.kind = computeViewKind(screenSize)
       return screenSize !== view.kind
     },
 
-    expandItemAt(index) {
+    expandItemAt (index) {
       const {positions} = state
       const {kind, elements} = view
       const translationsFn = kind === 'mobile' ? toMobileTranslations : toDesktopTranslations

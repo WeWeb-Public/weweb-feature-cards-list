@@ -177,7 +177,7 @@
         })
       }),
       onFeatureListChanged (items) {
-        this.section.data.features=items
+        this.section.data.features = items
         this.update()
         this.$nextTick(() => {
           this.layoutManager.update()
@@ -225,6 +225,7 @@
       padding: 24px;
       margin: auto;
       color: var(--color-true-black);
+      height: auto;
     }
 
     .background {
@@ -238,11 +239,11 @@
     .features-list {
       position: relative;
       width: 100%;
-      min-height: 500px;
       height: auto;
       margin: 0 auto;
       padding: 0;
       list-style-type: none;
+      transition: all 500ms;
 
       @media (min-width: 1440px) {
         width: 1184px;
