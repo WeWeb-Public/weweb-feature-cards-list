@@ -222,10 +222,21 @@
   .ww-features-cards-list {
 
     .section-container {
-      padding: 24px;
-      margin: auto;
-      color: var(--color-true-black);
       height: auto;
+      margin: 0 5%;
+      color: var(--color-true-black);
+
+      @media (min-width: 768px) {
+        margin: 0 10%;
+      }
+
+      @media (min-width: 992px) {
+        margin: 0 10%;
+      }
+
+      @media (min-width: 1200px) {
+        margin: 0 15%;
+      }
     }
 
     .background {
@@ -237,6 +248,9 @@
     }
 
     .features-list {
+      display:flex;
+      flex-direction: row;
+      justify-content: space-between;
       position: relative;
       width: 100%;
       height: auto;
@@ -279,7 +293,7 @@
       @media (min-width: 992px) {
         flex-direction: row;
         height: 213px;
-        width: 530px;
+        width: 438px;
         padding: 32px 48px;
       }
 
@@ -344,20 +358,21 @@
       &-media {
         position: relative;
         visibility: hidden;
-        width: 190px;
-        height: 138px;
+        min-width: 0;
+        min-height: 0;
         margin: auto;
         background-color: #FFF;
         border-radius: 24px;
         overflow: hidden;
         opacity: 0;
-        transition: opacity 2000ms 250ms;
+        transition: opacity 50ms;
 
         &.selected {
           visibility: visible;
           min-width: 190px;
           min-height: 138px;
           opacity: 1;
+          transition: all 500ms;
 
           @media (min-width: 768px) {
             min-width: 364px;

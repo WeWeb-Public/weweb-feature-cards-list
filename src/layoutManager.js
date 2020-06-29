@@ -11,7 +11,7 @@ const LayoutManager = (container) => {
     labTop: {
       horizontalGutter: 32,
       verticalGutter: 48,
-      elementWidth: 530,
+      elementWidth: 438,
       elementHeight: 213,
       selectedElementHeight: 473,
       itemsPerRow: 2
