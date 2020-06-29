@@ -248,9 +248,6 @@
     }
 
     .features-list {
-      display:flex;
-      flex-direction: row;
-      justify-content: space-between;
       position: relative;
       width: 100%;
       height: auto;
@@ -258,10 +255,6 @@
       padding: 0;
       list-style-type: none;
       transition: all 500ms;
-
-      @media (min-width: 1440px) {
-        width: 1184px;
-      }
     }
 
     .features-list::v-deep .features-item-wrapper {
@@ -278,7 +271,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 100%;
+      min-width: 100%;
       height: 180px;
       padding: 24px 48px;
       border-radius: 24px;
@@ -293,12 +286,12 @@
       @media (min-width: 992px) {
         flex-direction: row;
         height: 213px;
-        width: 438px;
+        min-width: calc(50% - 16px);
         padding: 32px 48px;
       }
 
       @media (min-width: 1200px) {
-        width: calc(50% - 24px);
+        min-width: calc(50% - 24px);
       }
 
       &.selected {
